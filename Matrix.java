@@ -133,7 +133,7 @@ public class Matrix
         }
 
         for(int i = 0;i < this.rows;i++){
-            for(int j = 0;j < this.columns){
+            for(int j = 0;j < this.columns;j++){
                 if(this.data[i][j] != B.data[i][j]){
                     return false;
                 }
@@ -291,6 +291,13 @@ public class Matrix
         }
 
         return true;
+    }
+
+    public void swapRows(int i ,int j)
+    {
+        double temp[] = this.data[i];
+        this.data[i] = this.data[j];
+        this.data[j] = temp; 
     }
 
     /**
