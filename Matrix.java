@@ -214,44 +214,41 @@ public class Matrix
     }
 
     /**
-     * Determine whether the matrix is in row-echelon form
+     * Determine whether the matrix is in echelon form
      *
      * @param void
      * @return boolean the truth value of the test
      */
-    public boolean isInRowEchelonForm()
+    public boolean isInEchelonForm()
     {
         for(int i = 0;i < this.rows;i++){
             if(Matrix.isZeroRow(this.data[i])){
+                // check that all rows under a row with all zeroes
+                // also have all elements to be zero
                 for(int j = i + 1;j < this.rows;j++){
                     if(!Matrix.isZeroRow(this.data[j])){
                         return false;
                     }
                 }
             }
-            else{
-                if(Matrix.getFirstNonZeroOfRow(this.data[i]) != 1){
-                    return false;
-                }
-                else{
-                    // check whether the position of the first non zero element
-                    // is farther to the right than that of the previous row
+            else{          
+                // check whether the position of the first non zero element
+                // is farther to the right than that of the previous row
 
-                    // pos of the first 1 in the row
-                    int pos = Matrix.getPosOfFirstNonZeroOfRow(this.data[i]);
+                // pos of the first non zero entry in the row
+                int pos = Matrix.getPosOfFirstNonZeroOfRow(this.data[i]);
 
-                    if(i > 0){
-                        if( pos < Matrix.getPosOfFirstNonZeroOfRow(this.data[i - 1])){
-                          return false;
-                        }
+                if(i > 0){
+                    if( pos < Matrix.getPosOfFirstNonZeroOfRow(this.data[i - 1])){
+                        return false;
                     }
+                }
 
-                    for(int j = i + 1;j < this.rows;j++){
-                        // check that all elements under the first 1 in this row
-                        // are 0s
-                        if(this.data[j][pos] != 0){
-                            return false;
-                        }
+                for(int j = i + 1;j < this.rows;j++){
+                    // check that all elements under the first 1 in this row
+                    // are 0s
+                    if(this.data[j][pos] != 0){
+                        return false;
                     }
                 }
             }
@@ -275,6 +272,14 @@ public class Matrix
         }
 
         for(int i = 0;i < this.rows;i++){
+            // pos of the first non zero entry in the row
+            int pos = Matrix.getPosOfFirstNonZeroOfRow(this.data[i]);
+
+            if(this.data[i][pos] != 1){
+                // checking if the first non  zeroe entry in each row is a 1
+                return false;
+            }
+
             // the extra requirement that this matrix has to pass to be
             // regarded as being in reduced row-echelon form is to
             // have both positions above and below the position of the first
@@ -293,6 +298,13 @@ public class Matrix
         return true;
     }
 
+    /**
+     * Swap two rows in the matrix
+     *
+     * @param int i index of first row
+     * @param int j index of second row
+     * @return void
+     */
     public void swapRows(int i ,int j)
     {
         double temp[] = this.data[i];
